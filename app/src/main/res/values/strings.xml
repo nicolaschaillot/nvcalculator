@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Noovimo calculator</string>
+    <string name="labelBtnNetCalculate">Calculer</string>
+    <string name="LabelNetVendeur">Net vendeur</string>
+</resources>
