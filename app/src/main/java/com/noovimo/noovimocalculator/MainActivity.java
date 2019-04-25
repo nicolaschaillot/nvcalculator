@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static double NOTAIRE_PERCENTAGE = 7.5;
+
     private EditText etxtNetVendeur;
     private Button btnNetCalculate;
     private EditText etxtNotaireInclus;
@@ -21,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText etxtClient;
     private Button btnClientCalculate;
 
+    private double net;
     private double fa;
     private double notaire;
+    private double client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
         etxtNetVendeur.requestFocus();
     }
 
+    private void reset() {
+        net = 0;
+        fa = 0;
+        notaire = 0;
+        client = 0;
+    }
+
     private void calculateFAIFromNet(double net) {
         if (net <= 100000) {
             fa = net * 3.5 / 100;
@@ -71,24 +82,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculateNotaireNet(double net) {
-        notaire = net * 7.5 / 100;
+        notaire = net * NOTAIRE_PERCENTAGE / 100;
         txtnotaire.setText(Double.toString(notaire));
+    }
+
+    private void calculateNetFromNotaireInclus(double notaireInclus) {
+        net = notaireInclus / ( 1 + ( NOTAIRE_PERCENTAGE / 100 ) );
+        notaire = net * NOTAIRE_PERCENTAGE / 100;
+        txtnotaire.setText(Double.toString(notaire));
+    }
+
+    private void calculateNetFromFAI(double fai) {
+        //net = notaireInclus / ( 1 + ( NOTAIRE_PERCENTAGE / 100 ) );
+        //notaire = net * NOTAIRE_PERCENTAGE / 100;
+        txtFa.setText(Double.toString(fa));
     }
 
     private View.OnClickListener btnNetCalculateListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (etxtNetVendeur.getText().toString() != "") {
-                double netVendeur = Double.parseDouble(etxtNetVendeur.getText().toString());
-                calculateFAIFromNet(netVendeur);
-                double fai = netVendeur + fa;
+                reset();
+                net = Double.parseDouble(etxtNetVendeur.getText().toString());
+                calculateFAIFromNet(net);
+                double fai = net + fa;
                 etxtFAI.setText(Double.toString(fai));
-                calculateNotaireNet(netVendeur);
-                double notaireInclus = netVendeur + notaire;
+                calculateNotaireNet(net);
+                double notaireInclus = net + notaire;
                 etxtNotaireInclus.setText(Double.toString(notaireInclus));
-                double client = netVendeur + notaire + fa;
+                double client = net + notaire + fa;
                 etxtClient.setText(Double.toString(client));
-                Log.i("DEBUG", "Calcul depuis net vendeur : " + netVendeur + " FA = " + fa);
+                Log.i("DEBUG", "Calcul depuis net vendeur : " + net + " FA = " + fa);
             }
         }
     };
@@ -97,7 +121,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (etxtNotaireInclus.getText().toString() != "") {
+                reset();
                 int notaireInclus = Integer.parseInt(etxtNotaireInclus.getText().toString());
+                calculateNetFromNotaireInclus(notaireInclus);
+                etxtNetVendeur.setText(Double.toString(net));
+                calculateFAIFromNet(net);
+                double fai = net + fa;
+                etxtFAI.setText(Double.toString(fai));
+                double client = net + notaire + fa;
+                etxtClient.setText(Double.toString(client));
                 Log.i("DEBUG", "Calcul depuis notaire inclus : " + notaireInclus);
             }
         }
@@ -107,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (etxtFAI.getText().toString() != "") {
+                reset();
                 int fai = Integer.parseInt(etxtFAI.getText().toString());
                 Log.i("DEBUG", "Calcul depuis FAI : " + fai);
             }
@@ -117,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (etxtClient.getText().toString() != "") {
+                reset();
                 int client = Integer.parseInt(etxtClient.getText().toString());
                 Log.i("DEBUG", "Calcul depuis client : " + client);
             }
