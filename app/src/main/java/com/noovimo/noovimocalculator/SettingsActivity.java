@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
-                    notaryPercentage = Float.parseFloat(etxtNotaire.getText().toString());
+                    notaryPercentage = Float.parseFloat(s.toString());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putFloat("etxtNotaire", notaryPercentage);
                     editor.apply();
@@ -58,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        etxtNotaire.setText(simpleFormat(notaryPercentage));
+        etxtNotaire.setText(Float.toString(notaryPercentage));
         etxtNotaire.requestFocus();
     }
 
