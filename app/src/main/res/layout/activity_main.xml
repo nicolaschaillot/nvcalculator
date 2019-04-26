@@ -41,6 +41,7 @@
 
     <Button
         android:id="@+id/btnNotaireCalculate"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
@@ -52,6 +53,7 @@
 
     <Button
         android:id="@+id/btnNetCalculate"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
@@ -112,6 +114,7 @@
 
     <Button
         android:id="@+id/btnFAICalculate"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -147,6 +150,7 @@
 
     <Button
         android:id="@+id/btnClientCalculate"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -182,6 +186,7 @@
 
     <Button
         android:id="@+id/btnClear"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
@@ -193,6 +198,7 @@
 
     <Button
         android:id="@+id/btnSettings"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
