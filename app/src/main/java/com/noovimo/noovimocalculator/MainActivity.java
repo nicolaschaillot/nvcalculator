@@ -99,11 +99,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculateFAIFromNet(double net) {
         if (net <= 100000) {
-            fa = net * 3.5 / 100;
-        } else if (net > 100000 && net < 300000) {
+            fa = 4800;
+        } else if (net > 100000 && net <= 125000) {
+            fa = net * 4.8 / 100;
+        } else if (net > 125000 && net <= 150000) {
             fa = net * 4.5 / 100;
+        } else if (net > 150000 && net <= 175000) {
+            fa = net * 4.2 / 100;
+        } else if (net > 175000 && net <= 200000) {
+            fa = net * 3.9 / 100;
+        } else if (net > 200000 && net <= 400000) {
+            fa = net * 3.8 / 100;
+        } else if (net > 400000 && net <= 500000) {
+            fa = net * 3.5 / 100;
+        } else if (net > 500000 && net <= 600000) {
+            fa = net * 3.3 / 100;
         } else {
-            fa = net * 5.5 / 100;
+            fa = net * 3.0 / 100;
         }
         txtFa.setText(format(fa));
     }
@@ -126,15 +138,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculateNetFromFAI(double fai) {
-        double nettmp = fai / ( 1 + ( 3.5 / 100 ) );
+        double nettmp = fai - 4800;
         if (nettmp <= 100000) {
             net = nettmp;
         } else {
-            nettmp = fai / ( 1 + ( 4.5 / 100 ) );
-            if (nettmp > 100000 && nettmp < 300000) {
+            nettmp = fai / ( 1 + ( 4.8 / 100 ) );
+            if (nettmp > 100000 && nettmp <= 125000) {
                 net = nettmp;
             } else {
-                net = fai / ( 1 + ( 5.5 / 100 ) );
+                nettmp = fai / ( 1 + ( 4.5 / 100 ) );
+                if (nettmp > 125000 && nettmp <= 150000) {
+                    net = nettmp;
+                } else {
+                    nettmp = fai / ( 1 + ( 4.2 / 100 ) );
+                    if (nettmp > 150000 && nettmp <= 175000) {
+                        net = nettmp;
+                    } else {
+                        nettmp = fai / ( 1 + ( 3.9 / 100 ) );
+                        if (nettmp > 175000 && nettmp <= 200000) {
+                            net = nettmp;
+                        } else {
+                            nettmp = fai / ( 1 + ( 3.8 / 100 ) );
+                            if (nettmp > 200000 && nettmp <= 400000) {
+                                net = nettmp;
+                            } else {
+                                nettmp = fai / ( 1 + ( 3.5 / 100 ) );
+                                if (nettmp > 400000 && nettmp <= 500000) {
+                                    net = nettmp;
+                                } else {
+                                    nettmp = fai / ( 1 + ( 3.3 / 100 ) );
+                                    if (nettmp > 500000 && nettmp <= 600000) {
+                                        net = nettmp;
+                                    } else {
+                                        net = fai / ( 1 + ( 3.0 / 100 ) );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         fa = fai - net;
@@ -144,17 +186,53 @@ public class MainActivity extends AppCompatActivity {
     private void calculateNetFromClient(double client) {
         float percentage = getNotaryPercentage();
         double fap = 3.5;
-        double nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+        double nettmp = ( client - 4800 ) / ( 1 + (percentage / 100) );
         if (nettmp <= 100000) {
             net = nettmp;
         } else {
-            fap = 4.5;
+            fap = 4.8;
             nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
-            if (nettmp > 100000 && nettmp < 300000) {
+            if (nettmp > 100000 && nettmp <= 125000) {
                 net = nettmp;
             } else {
-                fap = 5.5;
-                net = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+                fap = 4.5;
+                nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+                if (nettmp > 125000 && nettmp <= 150000) {
+                    net = nettmp;
+                } else {
+                    fap = 4.2;
+                    nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+                    if (nettmp > 150000 && nettmp <= 175000) {
+                        net = nettmp;
+                    } else {
+                        fap = 3.9;
+                        nettmp = client / (1 + (fap / 100) + (percentage / 100));
+                        if (nettmp > 175000 && nettmp <= 200000) {
+                            net = nettmp;
+                        } else {
+                            fap = 3.8;
+                            nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+                            if (nettmp > 200000 && nettmp <= 400000) {
+                                net = nettmp;
+                            } else {
+                                fap = 3.5;
+                                nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+                                if (nettmp > 400000 && nettmp <= 500000) {
+                                    net = nettmp;
+                                } else {
+                                    fap = 3.3;
+                                    nettmp = client / ( 1 + ( fap / 100 ) + (percentage / 100) );
+                                    if (nettmp > 500000 && nettmp <= 600000) {
+                                        net = nettmp;
+                                    } else {
+                                        fap = 3.0;
+                                        net = client / (1 + (fap / 100) + (percentage / 100));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         fa = net * fap / 100;
